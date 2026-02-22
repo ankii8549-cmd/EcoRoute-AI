@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRoute AI - ML Model Information</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="alternate icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/styles.css">
+    <link rel="stylesheet" href="/static/model-info.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="nav-icon">🌱</span>
+                <span class="nav-title">EcoRoute AI</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link">Home</a></li>
+                <li><a href="/model-info" class="nav-link active">Model Info</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <!-- Model Overview -->
+        <section class="info-section">
+            <h2>📊 Model Overview</h2>
+            <div class="info-card">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Model Type</div>
+                        <div class="info-value">Stacking Ensemble</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Base Models</div>
+                        <div class="info-value">XGBoost, LightGBM, RandomForest, CatBoost</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Meta-Learner</div>
+                        <div class="info-value">Ridge Regression</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Training Date</div>
+                        <div class="info-value">February 2026</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Dataset Size</div>
+                        <div class="info-value">6,350 vehicles</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Features</div>
+                        <div class="info-value">1,553 engineered features</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Performance Metrics -->
+        <section class="info-section">
+            <h2>🎯 Performance Metrics</h2>
+            <div class="metrics-grid">
+                <div class="metric-card best">
+                    <div class="metric-icon">🏆</div>
+                    <div class="metric-label">R² Score</div>
+                    <div class="metric-value">0.9990</div>
+                    <div class="metric-description">99.9% variance explained</div>
+                    <div class="metric-badge success">Target: >0.92 ✓</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📉</div>
+                    <div class="metric-label">MAE</div>
+                    <div class="metric-value">0.65 g/km</div>
+                    <div class="metric-description">Mean Absolute Error</div>
+                    <div class="metric-badge success">Target: <10 ✓</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">📊</div>
+                    <div class="metric-label">RMSE</div>
+                    <div class="metric-value">1.36 g/km</div>
+                    <div class="metric-description">Root Mean Squared Error</div>
+                    <div class="metric-badge success">Target: <15 ✓</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-icon">🎯</div>
+                    <div class="metric-label">MAPE</div>
+                    <div class="metric-value">0.26%</div>
+                    <div class="metric-description">Mean Absolute % Error</div>
+                    <div class="metric-badge success">Excellent</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Model Comparison -->
+        <section class="info-section">
+            <h2>⚖️ Model Comparison</h2>
+            <div class="info-card">
+                <div class="table-responsive">
+                    <table class="comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Model</th>
+                                <th>Test R²</th>
+                                <th>Test MAE (g/km)</th>
+                                <th>Test RMSE (g/km)</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="best-row">
+                                <td><strong>🏆 Stacking Ensemble</strong></td>
+                                <td><strong>0.999029</strong></td>
+                                <td><strong>0.6506</strong></td>
+                                <td><strong>1.3608</strong></td>
+                                <td><span class="status-badge best">Best</span></td>
+                            </tr>
+                            <tr>
+                                <td>LightGBM</td>
+                                <td>0.998944</td>
+                                <td>0.6870</td>
+                                <td>1.4197</td>
+                                <td><span class="status-badge good">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>XGBoost</td>
+                                <td>0.998763</td>
+                                <td>0.7514</td>
+                                <td>1.5362</td>
+                                <td><span class="status-badge good">Excellent</span></td>
+                            </tr>
+                            <tr>
+                                <td>RandomForest</td>
+                                <td>0.997595</td>
+                                <td>0.6189</td>
+                                <td>2.1420</td>
+                                <td><span class="status-badge good">Very Good</span></td>
+                            </tr>
+                            <tr>
+                                <td>CatBoost</td>
+                                <td>0.996782</td>
+                                <td>1.6764</td>
+                                <td>2.4780</td>
+                                <td><span class="status-badge good">Good</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- Training Process -->
+        <section class="info-section">
+            <h2>🔧 Training Process</h2>
+            <div class="process-grid">
+                <div class="process-card">
+                    <div class="process-number">1</div>
+                    <h3>Data Preparation</h3>
+                    <p>Loaded Canada fuel consumption dataset (2015-2024) with 40,000+ vehicles. Cleaned data by removing missing values, outliers (IQR method), and electric vehicles.</p>
+                    <div class="process-result">Result: 6,350 clean samples</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">2</div>
+                    <h3>Feature Engineering</h3>
+                    <p>Created advanced features: power-to-weight ratio, fuel efficiency score, engine displacement per cylinder, and interaction terms.</p>
+                    <div class="process-result">Result: 1,553 features</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">3</div>
+                    <h3>Model Training</h3>
+                    <p>Trained 4 base models (XGBoost, LightGBM, RandomForest, CatBoost) with 5-fold cross-validation for robust performance.</p>
+                    <div class="process-result">Result: 4 trained models</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">4</div>
+                    <h3>Hyperparameter Tuning</h3>
+                    <p>Optimized XGBoost and LightGBM using RandomizedSearchCV with 20 iterations and 3-fold CV for best parameters.</p>
+                    <div class="process-result">Result: Optimized models</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">5</div>
+                    <h3>Ensemble Building</h3>
+                    <p>Combined all 4 base models using StackingRegressor with Ridge meta-learner to leverage strengths of each model.</p>
+                    <div class="process-result">Result: Best ensemble model</div>
+                </div>
+                <div class="process-card">
+                    <div class="process-number">6</div>
+                    <h3>Evaluation & Deployment</h3>
+                    <p>Comprehensive evaluation with SHAP analysis for interpretability. Generated visualizations and deployed production-ready model.</p>
+                    <div class="process-result">Result: Production model</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Key Features -->
+        <section class="info-section">
+            <h2>🔑 Key Features Used</h2>
+            <div class="info-card">
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon">⚙️</div>
+                        <div class="feature-name">Engine Size</div>
+                        <div class="feature-importance">Highest Impact</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⛽</div>
+                        <div class="feature-name">Fuel Consumption</div>
+                        <div class="feature-importance">Very High</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔢</div>
+                        <div class="feature-name">Cylinders</div>
+                        <div class="feature-importance">High</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">⚡</div>
+                        <div class="feature-name">Power-to-Weight Ratio</div>
+                        <div class="feature-importance">High</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🚗</div>
+                        <div class="feature-name">Vehicle Class</div>
+                        <div class="feature-importance">Medium</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">🔄</div>
+                        <div class="feature-name">Transmission Type</div>
+                        <div class="feature-importance">Medium</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">💧</div>
+                        <div class="feature-name">Fuel Type</div>
+                        <div class="feature-importance">Medium</div>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon">📏</div>
+                        <div class="feature-name">Displacement/Cylinder</div>
+                        <div class="feature-importance">Medium</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Why Stacking Ensemble? -->
+        <section class="info-section">
+            <h2>💡 Why Stacking Ensemble?</h2>
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Highest Accuracy</h3>
+                    <p>Achieves 99.9% R² score by combining predictions from multiple models, reducing individual model biases.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🛡️</div>
+                    <h3>Robust Predictions</h3>
+                    <p>Less prone to overfitting as it leverages diverse learning algorithms with different strengths.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚖️</div>
+                    <h3>Balanced Performance</h3>
+                    <p>Best RMSE and competitive MAE across all metrics, ensuring consistent prediction quality.</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <h3>Explainable</h3>
+                    <p>SHAP analysis provides interpretability, showing which features drive emission predictions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Visualizations -->
+        <section class="info-section">
+            <h2>📈 Model Visualizations</h2>
+            <div class="info-card">
+                <p class="viz-description">
+                    Comprehensive visualizations generated to evaluate model performance across multiple dimensions. Click on any image to view in full size.
+                </p>
+                <div class="viz-grid">
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">📊</div>
+                            <div class="viz-name">Actual vs Predicted</div>
+                            <div class="viz-desc">Scatter plots showing prediction accuracy</div>
+                        </div>
+                        <img src="/visualizations/actual_vs_predicted.png" alt="Actual vs Predicted" class="viz-image" onclick="openModal(this)">
+                    </div>
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">📉</div>
+                            <div class="viz-name">Residual Plots</div>
+                            <div class="viz-desc">Error distribution analysis</div>
+                        </div>
+                        <img src="/visualizations/residual_plots.png" alt="Residual Plots" class="viz-image" onclick="openModal(this)">
+                    </div>
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">🎯</div>
+                            <div class="viz-name">Feature Importance</div>
+                            <div class="viz-desc">Top 10 influential features</div>
+                        </div>
+                        <img src="/visualizations/feature_importance.png" alt="Feature Importance" class="viz-image" onclick="openModal(this)">
+                    </div>
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">📈</div>
+                            <div class="viz-name">Learning Curves</div>
+                            <div class="viz-desc">Training convergence validation</div>
+                        </div>
+                        <img src="/visualizations/learning_curves.png" alt="Learning Curves" class="viz-image" onclick="openModal(this)">
+                    </div>
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">⚖️</div>
+                            <div class="viz-name">Model Comparison</div>
+                            <div class="viz-desc">Bar charts comparing all models</div>
+                        </div>
+                        <img src="/visualizations/model_comparison.png" alt="Model Comparison" class="viz-image" onclick="openModal(this)">
+                    </div>
+                    <div class="viz-item">
+                        <div class="viz-header">
+                            <div class="viz-icon">🔍</div>
+                            <div class="viz-name">SHAP Summary</div>
+                            <div class="viz-desc">Model interpretability analysis</div>
+                        </div>
+                        <img src="/visualizations/shap_summary.png" alt="SHAP Summary" class="viz-image" onclick="openModal(this)">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Data Analysis Visualizations -->
+        <section class="analysis-section">
+            <h2>📊 Exploratory Data Analysis</h2>
+            <p class="viz-description">
+                Initial data exploration and statistical analysis performed on the Canada Fuel Consumption dataset (2015-2024) to understand patterns, distributions, and relationships before model training.
+            </p>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">📈 Feature Distributions</div>
+                        <div class="analysis-desc">
+                            Distribution plots for numerical features including engine size, fuel consumption, cylinders, and CO₂ emissions. Shows data spread, skewness, and potential outliers.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/eda_plots/distributions.png" alt="Feature Distributions" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">🔥 Correlation Heatmap (EDA)</div>
+                        <div class="analysis-desc">
+                            Correlation matrix showing relationships between numerical features. Darker colors indicate stronger correlations, helping identify multicollinearity and feature dependencies.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/eda_plots/correlation_heatmap.png" alt="EDA Correlation Heatmap" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">📊 Categorical Distributions</div>
+                        <div class="analysis-desc">
+                            Distribution of categorical features like vehicle class, fuel type, transmission type, and make. Shows dataset composition and class imbalances.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/eda_plots/categorical_distributions.png" alt="Categorical Distributions" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Feature Engineering Visualizations -->
+        <section class="analysis-section">
+            <h2>🔧 Feature Engineering Analysis</h2>
+            <p class="viz-description">
+                Advanced feature engineering created 1,553 features from the original dataset. These visualizations show the impact and importance of engineered features.
+            </p>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">🎯 Feature Importance (Engineering)</div>
+                        <div class="analysis-desc">
+                            Top 20 most important features after engineering. Shows which engineered features (power-to-weight ratio, fuel efficiency score, etc.) contribute most to predictions.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/feature_engineering/feature_importance.png" alt="Feature Engineering Importance" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">🔥 Correlation Heatmap (Engineered)</div>
+                        <div class="analysis-desc">
+                            Correlation matrix after feature engineering. Shows how new features relate to each other and the target variable (CO₂ emissions).
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/feature_engineering/correlation_heatmap.png" alt="Feature Engineering Correlation" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Model Training Visualizations -->
+        <section class="analysis-section">
+            <h2>🤖 Model Training Comparison</h2>
+            <p class="viz-description">
+                Comparison of all trained models (XGBoost, LightGBM, RandomForest, CatBoost) before ensemble creation. Shows performance metrics across different algorithms.
+            </p>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">⚖️ Model Performance Comparison</div>
+                        <div class="analysis-desc">
+                            Bar charts comparing R², MAE, and RMSE across all base models. Helps identify which models perform best and should be included in the ensemble.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/model_training/model_comparison.png" alt="Model Training Comparison" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- Hyperparameter Tuning Visualizations -->
+        <section class="analysis-section">
+            <h2>⚙️ Hyperparameter Tuning Results</h2>
+            <p class="viz-description">
+                Results from hyperparameter optimization using RandomizedSearchCV. Shows performance improvements after tuning XGBoost and LightGBM models.
+            </p>
+            <div class="analysis-grid">
+                <div class="analysis-card">
+                    <div class="analysis-header">
+                        <div class="analysis-title">🎛️ Tuning Performance Comparison</div>
+                        <div class="analysis-desc">
+                            Before vs. after hyperparameter tuning comparison. Shows R², MAE, and RMSE improvements for tuned models, validating the optimization process.
+                        </div>
+                    </div>
+                    <div class="analysis-image-container">
+                        <img src="/data-visualizations/hyperparameter_tuning/tuning_comparison.png" alt="Hyperparameter Tuning Comparison" class="analysis-image" onclick="openModal(this)">
+                        <div class="image-overlay">
+                            <div class="overlay-text">Click to enlarge</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Details -->
+        <section class="info-section">
+            <h2>🔬 Technical Details</h2>
+            <div class="info-card">
+                <div class="tech-details">
+                    <div class="tech-section">
+                        <h3>Dataset</h3>
+                        <ul>
+                            <li><strong>Source:</strong> Canada Fuel Consumption (2015-2024)</li>
+                            <li><strong>Original Size:</strong> ~40,000 vehicles</li>
+                            <li><strong>After Cleaning:</strong> 6,350 vehicles</li>
+                            <li><strong>Train/Test Split:</strong> 80/20 (5,080 / 1,270)</li>
+                            <li><strong>Outlier Removal:</strong> IQR method (1.5 × IQR)</li>
+                        </ul>
+                    </div>
+                    <div class="tech-section">
+                        <h3>Model Architecture</h3>
+                        <ul>
+                            <li><strong>Base Estimators:</strong> 4 models (XGBoost, LightGBM, RandomForest, CatBoost)</li>
+                            <li><strong>Meta-Learner:</strong> Ridge Regression (alpha=1.0)</li>
+                            <li><strong>Cross-Validation:</strong> 5-fold during training</li>
+                            <li><strong>Ensemble Method:</strong> StackingRegressor</li>
+                        </ul>
+                    </div>
+                    <div class="tech-section">
+                        <h3>Hyperparameters (Best Models)</h3>
+                        <ul>
+                            <li><strong>XGBoost:</strong> n_estimators=300, max_depth=8, learning_rate=0.05</li>
+                            <li><strong>LightGBM:</strong> n_estimators=300, max_depth=-1, learning_rate=0.1</li>
+                            <li><strong>Tuning Method:</strong> RandomizedSearchCV (20 iterations)</li>
+                        </ul>
+                    </div>
+                    <div class="tech-section">
+                        <h3>Libraries & Tools</h3>
+                        <ul>
+                            <li><strong>ML Frameworks:</strong> scikit-learn, XGBoost, LightGBM, CatBoost</li>
+                            <li><strong>Data Processing:</strong> pandas, numpy</li>
+                            <li><strong>Visualization:</strong> matplotlib, seaborn</li>
+                            <li><strong>Explainability:</strong> SHAP</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Future Improvements -->
+        <section class="info-section">
+            <h2>🚀 Future Improvements</h2>
+            <div class="improvements-grid">
+                <div class="improvement-card">
+                    <h3>📊 Expand Dataset</h3>
+                    <p>Include more recent vehicle models, international data, and real-world driving patterns.</p>
+                </div>
+                <div class="improvement-card">
+                    <h3>🌦️ Real-Time Features</h3>
+                    <p>Incorporate weather conditions, road conditions, and driver behavior patterns.</p>
+                </div>
+                <div class="improvement-card">
+                    <h3>🧠 Deep Learning</h3>
+                    <p>Explore neural networks with attention mechanisms for complex pattern recognition.</p>
+                </div>
+                <div class="improvement-card">
+                    <h3>📱 Mobile App</h3>
+                    <p>Develop native mobile applications for iOS and Android platforms.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Call to Action -->
+        <section class="cta-section">
+            <div class="cta-card">
+                <h2>Ready to Find Your Eco-Friendly Route?</h2>
+                <p>Use our advanced ML model to get accurate emission predictions and route recommendations.</p>
+                <a href="/" class="cta-button">Start Planning Your Route →</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="modal" onclick="closeModal()">
+        <span class="modal-close" onclick="closeModal()">&times;</span>
+        <img class="modal-content" id="modalImage">
+        <div class="modal-caption" id="modalCaption"></div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; <span id="currentYear"></span> | Made with ❤️ by Utkarsh Dhawan & Ankit Kaari</p>
+                <div class="footer-links">
+                    <a href="/docs" class="footer-link" target="_blank">📚 API Documentation</a>
+                    <a href="/health" class="footer-link" target="_blank">🏥 Health Check</a>
+                </div>
+                <div class="footer-status" id="systemStatus">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span id="statusText">Checking system status...</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Set current year dynamically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Check system health on page load
+        async function checkSystemHealth() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                
+                if (data.status === 'healthy') {
+                    statusDot.classList.remove('error');
+                    statusText.textContent = 'All Systems Operational';
+                } else {
+                    statusDot.classList.add('error');
+                    statusText.textContent = 'System Issues Detected';
+                }
+            } catch (error) {
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                statusDot.classList.add('error');
+                statusText.textContent = 'Unable to Check Status';
+            }
+        }
+        
+        // Check health on page load
+        checkSystemHealth();
+        
+        function openModal(img) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            const caption = document.getElementById('modalCaption');
+            
+            modal.style.display = 'block';
+            modalImg.src = img.src;
+            caption.innerHTML = img.alt;
+            
+            // Prevent body scroll when modal is open
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('imageModal');
+            modal.style.display = 'none';
+            
+            // Restore body scroll
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

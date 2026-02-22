@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoRoute AI - Eco-Friendly Route Planning</title>
+    <link rel="icon" type="image/svg+xml" href="/static/favicon.svg">
+    <link rel="alternate icon" href="/static/favicon.ico">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <div class="nav-brand">
+                <span class="nav-icon">🌱</span>
+                <span class="nav-title">EcoRoute AI</span>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Home</a></li>
+                <li><a href="/model-info" class="nav-link">Model Info</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="input-section">
+            <h2>Plan Your Eco-Friendly Route</h2>
+            <form id="routeForm">
+                <div class="form-group">
+                    <label for="vehicle_no">Vehicle Make & Model</label>
+                    <input 
+                        type="text" 
+                        id="vehicle_no" 
+                        name="vehicle_no" 
+                        placeholder="e.g., BMW 320i, Honda Civic, Toyota Camry" 
+                        required
+                        autocomplete="off"
+                    >
+                    <small class="help-text">Enter vehicle make and model from Canada dataset</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="source">Source Location</label>
+                    <input 
+                        type="text" 
+                        id="source" 
+                        name="source" 
+                        placeholder="e.g., Connaught Place, New Delhi" 
+                        required
+                        autocomplete="off"
+                    >
+                    <small class="help-text">Starting point of your journey</small>
+                </div>
+
+                <div class="form-group">
+                    <label for="destination">Destination Location</label>
+                    <input 
+                        type="text" 
+                        id="destination" 
+                        name="destination" 
+                        placeholder="e.g., India Gate, New Delhi" 
+                        required
+                        autocomplete="off"
+                    >
+                    <small class="help-text">Where you want to go</small>
+                </div>
+
+                <button type="submit" class="btn-primary">
+                    <span class="btn-text">Find Eco-Routes</span>
+                    <span class="spinner" style="display: none;"></span>
+                </button>
+            </form>
+        </section>
+
+        <section id="errorSection" class="error-section" style="display: none;">
+            <div class="error-message">
+                <span class="error-icon">⚠️</span>
+                <p id="errorText"></p>
+            </div>
+        </section>
+
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <h2>Route Recommendations</h2>
+            
+            <div class="savings-summary" id="savingsSummary">
+                <!-- Emission savings will be displayed here -->
+            </div>
+
+            <div class="map-container">
+                <div id="map"></div>
+            </div>
+
+            <div class="recommended-route-container">
+                <h3>🏆 Recommended Route (Lowest Emissions)</h3>
+                <div id="recommendedRoute" class="route-card recommended">
+                    <!-- Recommended route details will be displayed here -->
+                </div>
+            </div>
+
+            <div class="alternative-routes-container" id="alternativeRoutesContainer" style="display: none;">
+                <h3>Alternative Routes</h3>
+                <div id="alternativeRoutes" class="routes-grid">
+                    <!-- Alternative routes will be displayed here -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <p class="footer-copyright">&copy; <span id="currentYear"></span> | Made with ❤️ by Utkarsh Dhawan & Ankit Kaari</p>
+                <div class="footer-links">
+                    <a href="/docs" class="footer-link" target="_blank">📚 API Documentation</a>
+                    <a href="/health" class="footer-link" target="_blank">🏥 Health Check</a>
+                </div>
+                <div class="footer-status" id="systemStatus">
+                    <span class="status-dot" id="statusDot"></span>
+                    <span id="statusText">Checking system status...</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="/static/app.js"></script>
+    <!-- Google Maps API key will be injected by backend -->
+    <script>
+        // Set current year dynamically
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        
+        // Check system health on page load
+        async function checkSystemHealth() {
+            try {
+                const response = await fetch('/health');
+                const data = await response.json();
+                
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                
+                if (data.status === 'healthy') {
+                    statusDot.classList.remove('error');
+                    statusText.textContent = 'All Systems Operational';
+                } else {
+                    statusDot.classList.add('error');
+                    statusText.textContent = 'System Issues Detected';
+                }
+            } catch (error) {
+                const statusDot = document.getElementById('statusDot');
+                const statusText = document.getElementById('statusText');
+                statusDot.classList.add('error');
+                statusText.textContent = 'Unable to Check Status';
+            }
+        }
+        
+        // Check health on page load
+        checkSystemHealth();
+        
+        // Fetch API key from backend and load Google Maps
+        fetch('/api/maps-config')
+            .then(response => response.json())
+            .then(data => {
+                const script = document.createElement('script');
+                script.src = `https://maps.googleapis.com/maps/api/js?key=${data.api_key}&callback=initMap`;
+                script.async = true;
+                script.defer = true;
+                document.body.appendChild(script);
+            })
+            .catch(error => {
+                console.error('Failed to load Google Maps API key:', error);
+            });
+    </script>
+</body>
+</html>

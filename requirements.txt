@@ -1,0 +1,53 @@
+# ============================================
+# Production Dependencies
+# ============================================
+
+# Web Framework
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# Production Server (alternative to uvicorn)
+gunicorn==21.2.0
+
+# Data Processing
+pandas==2.1.4
+numpy==1.26.3
+
+# Machine Learning - Core
+scikit-learn==1.4.0
+
+# Machine Learning - Advanced Models
+xgboost==2.0.3
+lightgbm==4.3.0
+catboost==1.2.2
+
+# Model Explainability
+shap==0.44.1
+
+# Visualization (for model evaluation)
+matplotlib==3.8.2
+seaborn==0.13.1
+
+# HTTP Requests
+requests==2.31.0
+
+# Configuration Management
+pydantic==2.5.3
+pydantic-settings==2.1.0
+python-dotenv==1.0.0
+
+# Retry Logic
+tenacity==8.2.3
+
+# Rate Limiting
+slowapi==0.1.9
+
+# ============================================
+# Development Dependencies (optional)
+# ============================================
+
+# Testing
+pytest==7.4.4
+pytest-cov==4.1.0
+httpx==0.26.0
+hypothesis==6.98.3

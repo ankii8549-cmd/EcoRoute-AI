@@ -1,0 +1,34 @@
+{
+  "XGBoost": {
+    "train_r2": 0.9998368620872498,
+    "test_r2": 0.9987631440162659,
+    "train_mae": 0.3947752118110657,
+    "test_mae": 0.7514255046844482,
+    "train_rmse": 0.5377584523556896,
+    "test_rmse": 1.5361697513239911,
+    "cv_best_score": 0.9982662002245585,
+    "best_params": {
+      "subsample": 0.7,
+      "n_estimators": 300,
+      "max_depth": 8,
+      "learning_rate": 0.05,
+      "colsample_bytree": 0.7
+    }
+  },
+  "LightGBM": {
+    "train_r2": 0.99973269951776,
+    "test_r2": 0.9989436398223165,
+    "train_mae": 0.42583297537373055,
+    "test_mae": 0.6869695060239762,
+    "train_rmse": 0.6883029048408281,
+    "test_rmse": 1.4196519991308374,
+    "cv_best_score": 0.998483418377725,
+    "best_params": {
+      "subsample": 0.9,
+      "n_estimators": 300,
+      "max_depth": -1,
+      "learning_rate": 0.1,
+      "colsample_bytree": 0.8
+    }
+  }
+}

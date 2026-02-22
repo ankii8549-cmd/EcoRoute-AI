@@ -1,0 +1,90 @@
+# Render Blueprint Configuration
+# This file defines the infrastructure for deploying the Vehicle Emission Eco-Route System on Render
+# Documentation: https://render.com/docs/blueprint-spec
+
+services:
+  # Web Service - FastAPI Application
+  - type: web
+    name: ecoroute-api
+    env: python
+    region: oregon  # Choose region closest to your users: oregon, frankfurt, singapore, ohio
+    plan: free  # Options: free, starter, standard, pro, pro plus, pro max, pro ultra
+    branch: main  # Git branch to deploy
+    
+    # Build Configuration
+    buildCommand: pip install -r requirements.txt
+    
+    # Start Command
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    
+    # Health Check
+    healthCheckPath: /health
+    
+    # Auto-Deploy
+    autoDeploy: true  # Automatically deploy when code is pushed to branch
+    
+    # Environment Variables
+    envVars:
+      # Required: Google Maps API Key
+      - key: GOOGLE_MAPS_API_KEY
+        sync: false  # Set this manually in Render dashboard for security
+      
+      # Environment Configuration
+      - key: ENVIRONMENT
+        value: production
+      
+      # Server Configuration
+      - key: API_HOST
+        value: 0.0.0.0
+      
+      # File Paths (using default values from config.py)
+      - key: VEHICLE_DATABASE_PATH
+        value: data/cleaned_fuel_consumption.csv
+      
+      - key: MODEL_PATH
+        value: models/stacking_ensemble.pkl
+      
+      - key: MODEL_COLUMNS_PATH
+        value: models/stacking_model_columns.pkl
+      
+      # CORS Configuration
+      # IMPORTANT: Update this to your actual frontend domain in production
+      - key: CORS_ORIGINS
+        value: "*"  # Change to specific domains: https://yourdomain.com,https://www.yourdomain.com
+      
+      - key: CORS_ALLOW_CREDENTIALS
+        value: true
+      
+      - key: CORS_ALLOW_METHODS
+        value: "*"
+      
+      - key: CORS_ALLOW_HEADERS
+        value: "*"
+      
+      # Rate Limiting
+      - key: RATE_LIMIT_REQUESTS
+        value: 100
+      
+      - key: RATE_LIMIT_PERIOD
+        value: 60
+      
+      # Caching
+      - key: ROUTE_CACHE_TTL
+        value: 300
+      
+      # Logging
+      - key: LOG_LEVEL
+        value: INFO
+      
+      - key: LOG_FILE
+        value: app.log
+      
+      - key: LOG_FORMAT
+        value: json
+      
+      # External API Configuration
+      - key: MAPS_API_TIMEOUT
+        value: 10
+      
+      - key: MAPS_API_RETRIES
+        value: 3

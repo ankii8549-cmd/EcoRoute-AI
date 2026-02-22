@@ -1,0 +1,62 @@
+# ============================================
+# Kiro Files (AI Assistant)
+# ============================================
+.kiro/
+
+# ============================================
+# Environment Variables & Secrets
+# ============================================
+.env
+.env.local
+.env.production
+*.env
+
+# ============================================
+# Python
+# ============================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual Environment
+.venv
+env/
+venv/
+ENV/
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ============================================
+# IDEs
+# ============================================
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# Operating System
+# ============================================
+.DS_Store
+Thumbs.db
+*.swp
+
+# ============================================
+# Logs
+# ============================================
+*.log
+logs/
+app.log
+
+# ============================================
+# Project Specific
+# ============================================
+catboost_info/
+
+# Large files (optional - uncomment if needed)
+# models/*.pkl
+# data/*.csv
