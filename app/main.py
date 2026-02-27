@@ -320,27 +320,38 @@ GOOGLE_MAPS_API_KEY = settings.google_maps_api_key
 # ML PREDICTION FUNCTION
 # -----------------------------
 def predict_emission(vehicle, distance_km, traffic_level):
-
-    input_data = {
-        "engine_size": float(vehicle["engine_size"]),
-        "mileage": float(vehicle["mileage"]),
-        "distance_km": distance_km,
-        "traffic_level": traffic_level
+    """
+    Calculate CO2 emission based on vehicle's emission rate and distance.
+    
+    Uses the vehicle's CO2 emission rate (g/km) from the database and
+    applies a traffic multiplier to account for increased emissions in traffic.
+    
+    Args:
+        vehicle: Vehicle data dictionary with co2_emissions field
+        distance_km: Distance in kilometers
+        traffic_level: Traffic level (1=Low, 2=Medium, 3=High)
+        
+    Returns:
+        float: Predicted CO2 emission in kg
+    """
+    # Base emission rate from vehicle data (g/km)
+    base_emission_rate = vehicle["co2_emissions"]
+    
+    # Traffic multipliers - higher traffic increases emissions
+    traffic_multipliers = {
+        1: 1.0,   # Low traffic - no increase
+        2: 1.15,  # Medium traffic - 15% increase
+        3: 1.30   # High traffic - 30% increase
     }
-
-    fuel_types = ["Petrol", "Diesel", "CNG"]
-    for ft in fuel_types:
-        input_data[f"fuel_type_{ft}"] = 1 if vehicle["fuel"] == ft else 0
-
-    vehicle_types = ["SUV", "Sedan", "Hatchback"]
-    for vt in vehicle_types:
-        input_data[f"vehicle_type_{vt}"] = 1 if vehicle["type"] == vt else 0
-
-    input_df = pd.DataFrame([input_data])
-    input_df = input_df.reindex(columns=model_columns, fill_value=0)
-
-    prediction = emission_model.predict(input_df)[0]
-    return round(prediction, 2)
+    
+    # Apply traffic multiplier
+    multiplier = traffic_multipliers.get(traffic_level, 1.0)
+    adjusted_emission_rate = base_emission_rate * multiplier
+    
+    # Calculate total emission: (g/km) * km / 1000 = kg
+    total_emission_kg = (adjusted_emission_rate * distance_km) / 1000
+    
+    return round(total_emission_kg, 2)
 
 
 # -----------------------------
