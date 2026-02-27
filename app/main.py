@@ -321,21 +321,80 @@ GOOGLE_MAPS_API_KEY = settings.google_maps_api_key
 # -----------------------------
 def predict_emission(vehicle, distance_km, traffic_level):
     """
-    Calculate CO2 emission based on vehicle's emission rate and distance.
+    Predict CO2 emission using hybrid approach: ML model + traffic adjustment.
     
-    Uses the vehicle's CO2 emission rate (g/km) from the database and
-    applies a traffic multiplier to account for increased emissions in traffic.
+    Uses ML model to predict base emission rate per km based on vehicle specs,
+    then applies traffic multiplier for real-world conditions.
     
     Args:
-        vehicle: Vehicle data dictionary with co2_emissions field
+        vehicle: Vehicle data dictionary with specs
         distance_km: Distance in kilometers
         traffic_level: Traffic level (1=Low, 2=Medium, 3=High)
         
     Returns:
         float: Predicted CO2 emission in kg
     """
-    # Base emission rate from vehicle data (g/km)
-    base_emission_rate = vehicle["co2_emissions"]
+    try:
+        # Prepare features for ML model
+        input_data = {}
+        
+        # Basic features
+        input_data["Engine_size_L"] = float(vehicle.get("engine_size", 2.0))
+        
+        # Estimate cylinders from engine size (rough approximation)
+        engine_size = float(vehicle.get("engine_size", 2.0))
+        if engine_size < 1.5:
+            cylinders = 3
+        elif engine_size < 2.5:
+            cylinders = 4
+        elif engine_size < 4.0:
+            cylinders = 6
+        else:
+            cylinders = 8
+        input_data["Cylinders"] = cylinders
+        
+        # Engineered features
+        mileage = float(vehicle.get("mileage", 15.0))
+        input_data["fuel_efficiency_score"] = mileage * 10  # Scale up
+        input_data["engine_displacement_per_cylinder"] = engine_size / cylinders
+        input_data["estimated_weight"] = 1000 + (engine_size * 200)  # Rough estimate
+        input_data["power_to_weight_ratio"] = (engine_size * 50) / input_data["estimated_weight"]
+        input_data["city_highway_diff"] = 2.0  # Average difference
+        input_data["engine_efficiency"] = mileage / engine_size if engine_size > 0 else 10
+        input_data["cylinder_efficiency"] = mileage / cylinders if cylinders > 0 else 5
+        
+        # One-hot encode Make (use vehicle make if available)
+        make = vehicle.get("make", "Unknown")
+        input_data[f"Make_{make}"] = 1
+        
+        # One-hot encode Model (use vehicle model if available)
+        model_name = vehicle.get("model", "Unknown")
+        input_data[f"Model_{model_name}"] = 1
+        
+        # One-hot encode Vehicle class
+        vehicle_class = vehicle.get("type", "Car")
+        input_data[f"Vehicle_class_{vehicle_class}"] = 1
+        
+        # One-hot encode Fuel type
+        fuel_type = vehicle.get("fuel", "Petrol")
+        # Map fuel types to dataset format
+        fuel_map = {"Petrol": "Z", "Diesel": "D", "CNG": "N", "Ethanol": "E"}
+        fuel_code = fuel_map.get(fuel_type, "Z")
+        input_data[f"Fuel_type_{fuel_code}"] = 1
+        
+        # Convert to DataFrame
+        input_df = pd.DataFrame([input_data])
+        
+        # Reindex to match model columns (fills missing with 0)
+        input_df = input_df.reindex(columns=model_columns, fill_value=0)
+        
+        # Predict base emission rate (g/km) using ML model
+        base_emission_rate_per_km = emission_model.predict(input_df)[0]
+        
+    except Exception as e:
+        # Fallback to database value if ML prediction fails
+        print(f"ML prediction failed, using database value: {e}")
+        base_emission_rate_per_km = vehicle.get("co2_emissions", 200)
     
     # Traffic multipliers - higher traffic increases emissions
     traffic_multipliers = {
@@ -346,7 +405,7 @@ def predict_emission(vehicle, distance_km, traffic_level):
     
     # Apply traffic multiplier
     multiplier = traffic_multipliers.get(traffic_level, 1.0)
-    adjusted_emission_rate = base_emission_rate * multiplier
+    adjusted_emission_rate = base_emission_rate_per_km * multiplier
     
     # Calculate total emission: (g/km) * km / 1000 = kg
     total_emission_kg = (adjusted_emission_rate * distance_km) / 1000
