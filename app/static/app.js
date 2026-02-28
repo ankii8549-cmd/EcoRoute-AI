@@ -6,6 +6,7 @@ let map;
 let directionsService;
 let directionsRenderer;
 let markers = [];
+let mapsLoaded = false;
 
 // DOM Elements
 const routeForm = document.getElementById('routeForm');
@@ -22,34 +23,49 @@ const spinner = submitButton.querySelector('.spinner');
 
 // Initialize Google Maps
 function initMap() {
-    // Default center (India)
-    const defaultCenter = { lat: 20.5937, lng: 78.9629 };
-    
-    map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 5,
-        center: defaultCenter,
-        mapTypeControl: true,
-        streetViewControl: false,
-        fullscreenControl: true
-    });
-    
-    directionsService = new google.maps.DirectionsService();
-    directionsRenderer = new google.maps.DirectionsRenderer({
-        map: map,
-        suppressMarkers: false,
-        polylineOptions: {
-            strokeColor: '#10b981',
-            strokeWeight: 5,
-            strokeOpacity: 0.8
+    try {
+        // Check if map container exists
+        const mapContainer = document.getElementById('map');
+        if (!mapContainer) {
+            console.error('Map container not found');
+            return;
         }
-    });
-    
-    console.log('Google Maps initialized');
+
+        // Default center (India)
+        const defaultCenter = { lat: 20.5937, lng: 78.9629 };
+        
+        map = new google.maps.Map(mapContainer, {
+            zoom: 5,
+            center: defaultCenter,
+            mapTypeControl: true,
+            streetViewControl: false,
+            fullscreenControl: true
+        });
+        
+        directionsService = new google.maps.DirectionsService();
+        directionsRenderer = new google.maps.DirectionsRenderer({
+            map: map,
+            suppressMarkers: false,
+            polylineOptions: {
+                strokeColor: '#10b981',
+                strokeWeight: 5,
+                strokeOpacity: 0.8
+            }
+        });
+        
+        mapsLoaded = true;
+        console.log('Google Maps initialized successfully');
+    } catch (error) {
+        console.error('Error initializing Google Maps:', error);
+    }
 }
+
+// Make initMap globally accessible
+window.initMap = initMap;
 
 // Display Route on Map
 function displayRouteOnMap(source, destination) {
-    if (!directionsService || !directionsRenderer) {
+    if (!mapsLoaded || !directionsService || !directionsRenderer) {
         console.error('Google Maps not initialized');
         return;
     }

@@ -124,30 +124,39 @@
     <script src="/static/app.js"></script>
     <!-- Google Maps API key will be injected by backend -->
     <script>
-        // Set current year dynamically
-        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        // Debug: Log when script starts
+        console.log('[DEBUG] Page script started');
         
         // Check system health on page load
         async function checkSystemHealth() {
             try {
+                console.log('[DEBUG] Checking system health...');
                 const response = await fetch('/health');
                 const data = await response.json();
+                console.log('[DEBUG] Health check response:', data);
                 
                 const statusDot = document.getElementById('statusDot');
                 const statusText = document.getElementById('statusText');
                 
-                if (data.status === 'healthy') {
-                    statusDot.classList.remove('error');
-                    statusText.textContent = 'All Systems Operational';
-                } else {
-                    statusDot.classList.add('error');
-                    statusText.textContent = 'System Issues Detected';
+                if (statusDot && statusText) {
+                    if (data.status === 'healthy') {
+                        statusDot.classList.remove('error');
+                        statusText.textContent = 'All Systems Operational';
+                        console.log('[DEBUG] System status: Healthy');
+                    } else {
+                        statusDot.classList.add('error');
+                        statusText.textContent = 'System Issues Detected';
+                        console.log('[DEBUG] System status: Unhealthy');
+                    }
                 }
             } catch (error) {
+                console.error('[DEBUG] Health check failed:', error);
                 const statusDot = document.getElementById('statusDot');
                 const statusText = document.getElementById('statusText');
-                statusDot.classList.add('error');
-                statusText.textContent = 'Unable to Check Status';
+                if (statusDot && statusText) {
+                    statusDot.classList.add('error');
+                    statusText.textContent = 'Unable to Check Status';
+                }
             }
         }
         
@@ -155,17 +164,29 @@
         checkSystemHealth();
         
         // Fetch API key from backend and load Google Maps
+        console.log('[DEBUG] Fetching Maps API key...');
         fetch('/api/maps-config')
-            .then(response => response.json())
+            .then(response => {
+                console.log('[DEBUG] Maps config response received');
+                return response.json();
+            })
             .then(data => {
+                console.log('[DEBUG] API Key received:', data.api_key ? 'Yes (length: ' + data.api_key.length + ')' : 'No');
                 const script = document.createElement('script');
                 script.src = `https://maps.googleapis.com/maps/api/js?key=${data.api_key}&callback=initMap`;
                 script.async = true;
                 script.defer = true;
+                script.onload = function() {
+                    console.log('[DEBUG] Google Maps script loaded successfully');
+                };
+                script.onerror = function() {
+                    console.error('[DEBUG] Failed to load Google Maps script');
+                };
+                console.log('[DEBUG] Appending Maps script to body');
                 document.body.appendChild(script);
             })
             .catch(error => {
-                console.error('Failed to load Google Maps API key:', error);
+                console.error('[DEBUG] Failed to load Google Maps API key:', error);
             });
     </script>
 </body>
